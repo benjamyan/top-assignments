@@ -1,0 +1,54 @@
+@use 'base';
+
+html, body {
+    box-sizing: border-box;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; }
+h1, h2, h3, h4, h5, p {
+    font-family: base.$font }
+
+main {
+    position: relative;
+    height: 100vh;
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+
+    h1 {
+        font-size: 60px;
+        margin: 0; }
+    h3 {
+        padding: 50px 0; }
+
+    .score {
+        padding-top: 50px; 
+
+        div {
+            display: inline-block;
+            width: 49%;
+        }
+    }
+
+    button {
+        cursor: pointer;
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 50px;
+        text-align: center;
+        border: none;
+        outline: none;
+        display: block;
+        background-color: base.$orange;
+        
+        p {
+            font-size:125%;
+            margin: 20px 0;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    }
+}
