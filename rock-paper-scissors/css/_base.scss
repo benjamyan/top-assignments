@@ -1,2 +1,8 @@
 $font: Helvetica, sans-serif;
 $orange: salmon;
+
+@mixin transition($prop) {
+    -webkit-transition: $prop;
+    -ms-transition: $prop;
+    transition: $prop;
+};
