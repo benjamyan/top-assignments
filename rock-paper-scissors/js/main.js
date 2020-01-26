@@ -1,6 +1,4 @@
-let text = document.querySelector("h3");
-let playerNum = document.querySelector(".player h1");
-let computerNum = document.querySelector(".computer h1");
+let text, computerNum, playerNum;
 let rounds = [];
 let int = 0;
 const playerSelect = (value) => {
@@ -15,6 +13,8 @@ const computerPlay = () => {
 };
 const winner = () => {
     let winner;
+    playerNum = document.querySelector(".player h1");
+    computerNum = document.querySelector(".computer h1");
     if (playerNum > computerNum) winner = "You win!";
     else winner = "You lose!";
     document.querySelector("main").innerHTML +=
@@ -25,7 +25,7 @@ const winner = () => {
             <p>Reset game</p>
         </button>
     </section>`
-    for(i=0; i < rounds.length; i++) {
+    for (i=0; i < rounds.length; i++) {
         document.querySelector(".winner ul").innerHTML += 
         `<li>
             <b>${rounds[i][1] == -1 ? "Loss!" : rounds[i][1] == 1 ? "Win!" : "" }</b> 
@@ -35,11 +35,15 @@ const winner = () => {
 };
 const reset = () => {
     let panel = document.querySelector(".winner");
+    playerNum = document.querySelector(".player h1");
+    computerNum = document.querySelector(".computer h1");
+    text = document.querySelector("h3");
     playerNum.innerText = 0;
     computerNum.innerText = 0;
     text.innerText = text.dataset.text;
     panel.parentNode.removeChild(panel);
-    int = 0;
+    int = 0, rounds = [];
+    watch();
 };
 
 function compare(player, computer) {
@@ -61,6 +65,9 @@ function compare(player, computer) {
 };
 function game(value) {
     let result = compare(playerSelect(value), computerPlay());
+    playerNum = document.querySelector(".player h1");
+    computerNum = document.querySelector(".computer h1");
+    text = document.querySelector("h3");
     int++;
     text.innerText = result[0];
     if (result[1] == -1)
@@ -70,14 +77,17 @@ function game(value) {
     else null;
     rounds.push(result);
 };
-
-Object.values(document.querySelectorAll("button")).forEach(function(current) {
-    current.addEventListener("click", ()=> {
-        if (int > 4) winner();
-        else game(current.innerText.toLowerCase());
+function watch() {
+    Object.values(document.querySelectorAll("button")).forEach(function(current) {
+        current.addEventListener("click", ()=> {
+            if (int > 4) winner();
+            else game(current.innerText.toLowerCase());
+        });
     });
-});
+};
 
 (function() {
+    text = document.querySelector("h3");
+    watch();
     text.innerText += text.dataset.text;
 })();
