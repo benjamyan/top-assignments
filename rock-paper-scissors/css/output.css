@@ -55,6 +55,7 @@ main button p {
   letter-spacing: 1px;
 }
 main .winner {
+  display: none;
   position: absolute;
   top: 0;
   right: 0;
@@ -73,6 +74,9 @@ main .winner ul {
 main .winner ul li {
   list-style-type: none;
   padding: 5px 0;
+}
+main .active {
+  display: block;
 }
 
 /*# sourceMappingURL=output.css.map */

@@ -1,57 +1,51 @@
-let text, computerNum, playerNum;
-let rounds = [];
-let int = 0;
-const playerSelect = (value) => {
+const playerDOM = document.querySelector(".player h1");
+const computerDOM = document.querySelector(".computer h1");
+const textDOM = document.querySelector("h3");
+const winnerDOM = document.querySelector(".winner");
+let roundNum = 0, roundTotal = [];
+const playerValue = (value) => {
     return value;
 };
-const computerPlay = () => {
+const computerValue = () => {
+    // returns computer play based on random value
     const num = Math.random();
     let play = "rock";
     if (num >= .33) play = "paper";
     if (num >= .66) play = "scissors";
     return play;
 };
-const winner = () => {
-    let winner;
-    playerNum = document.querySelector(".player h1");
-    computerNum = document.querySelector(".computer h1");
-    if (playerNum > computerNum) winner = "You win!";
-    else winner = "You lose!";
-    document.querySelector("main").innerHTML +=
-    `<section class="winner">
-        <h2>${winner}</h2>
-        <ul></ul>
-        <button onclick="reset()">
-            <p>Reset game</p>
-        </button>
-    </section>`
-    for (i=0; i < rounds.length; i++) {
-        document.querySelector(".winner ul").innerHTML += 
-        `<li>
-            <b>${rounds[i][1] == -1 ? "Loss!" : rounds[i][1] == 1 ? "Win!" : "" }</b> 
-            ${rounds[i][0]}
-        </li>`
-    };
-};
-const reset = () => {
-    let panel = document.querySelector(".winner");
-    playerNum = document.querySelector(".player h1");
-    computerNum = document.querySelector(".computer h1");
-    text = document.querySelector("h3");
-    playerNum.innerText = 0;
-    computerNum.innerText = 0;
-    text.innerText = text.dataset.text;
-    panel.parentNode.removeChild(panel);
-    int = 0, rounds = [];
-    watch();
-};
 
-function compare(player, computer) {
+function watchGame(current, result) {
+    // fires if roundNum is below 5
+    if (roundNum < 5) {
+        // adds to integer to keep count of rounds | adds round result to array
+        let round = playRound(current.innerText.toLowerCase());
+        roundNum++;
+        roundTotal.push(round);
+    } else {
+        // fires functions that write the total game result
+        writeGameWinner();
+        writeGameRounds();
+    }
+};
+function playRound(value) {
+    // plays one round | adds result to array
+    let result = roundWinner(playerValue(value), computerValue());
+    textDOM.innerText = result[0];
+    if (result[1] == -1)
+        playerDOM.innerText++;
+    else if (result[1] == 1)
+        computerDOM.innerText++;
+    else null;
+    return result;
+};
+function roundWinner(player, computer) {
     let p = player, c = computer, loss, win, total, num;
     loss = `${c} beats ${p}!`;
     win = `${p} beats ${c}!`;
-    if (p == c) total = ["Draw!", num=0];
-    else if (p == "rock") {
+    if (p == c) {
+        total = ["Draw!", num=0];
+    } else if (p == "rock") {
         if (c == "paper") total = [loss, num=-1];
         if (c == "scissors") total = [win, num=1];
     } else if (p == "paper") {
@@ -62,32 +56,50 @@ function compare(player, computer) {
         if (c == "paper") total = [win, num=1];
     };
     return total;
+}
+function writeGameWinner() {
+    // writes the winner of the game to the screen
+    let winner;
+    if (playerDOM > computerDOM) winner = "You win!";
+    else winner = "You lose!";
+    winnerDOM.classList.add("active");
+    winnerDOM.innerHTML +=
+    `<h2>${winner}</h2>
+    <ul></ul>
+    <button onclick="resetGame()">
+        <p>Reset game</p>
+    </button>`
 };
-function game(value) {
-    let result = compare(playerSelect(value), computerPlay());
-    playerNum = document.querySelector(".player h1");
-    computerNum = document.querySelector(".computer h1");
-    text = document.querySelector("h3");
-    int++;
-    text.innerText = result[0];
-    if (result[1] == -1)
-        playerNum.innerText++;
-    else if (result[1] == 1)
-        computerNum.innerText++;
-    else null;
-    rounds.push(result);
+function writeGameRounds() {
+    // writes the result of each round to winner screen
+    for (i=0; i < roundTotal.length; i++) {
+        let result;
+        if (roundTotal[i][1] == -1) result = "Loss!";
+        else if (roundTotal[i][1] == 1) result = "Win!";
+        else result = "";
+        document.querySelector(".winner ul").innerHTML += 
+        `<li>
+            <b>${result}</b>
+            ${roundTotal[i][0]}
+        </li>`
+    };
 };
-function watch() {
-    Object.values(document.querySelectorAll("button")).forEach(function(current) {
-        current.addEventListener("click", ()=> {
-            if (int > 4) winner();
-            else game(current.innerText.toLowerCase());
-        });
-    });
+function resetGame() {
+    // clears winner window | resets all watchers
+    winnerDOM.classList.remove("active");
+    textDOM.innerText = textDOM.dataset.text;
+    winnerDOM.innerHTML = "";
+    playerDOM.innerText = 0;
+    computerDOM.innerText = 0;
+    roundNum = 0, roundTotal = [];
 };
 
 (function() {
-    text = document.querySelector("h3");
-    watch();
-    text.innerText += text.dataset.text;
+    textDOM.innerText += textDOM.dataset.text;
+    Object.values(document.querySelectorAll("button")).forEach(function(current) {
+        current.addEventListener("click", ()=> {
+            watchGame(current);
+        });
+    });
+    console.log("Initialized");
 })();

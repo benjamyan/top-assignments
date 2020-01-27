@@ -55,6 +55,7 @@ main {
     }
 
     .winner {
+        display: none;
         position: absolute;
         top: 0;
         right: 0;
@@ -75,4 +76,8 @@ main {
             padding: 5px 0;
         }
     }
+    
+    .active {
+        display: block;
+    };
 }
