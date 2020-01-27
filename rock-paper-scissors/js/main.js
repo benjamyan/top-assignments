@@ -95,6 +95,7 @@ function resetGame() {
 };
 
 (function() {
+    // initializer for the game | event listener | generates text for h3 tag based on data attribute
     textDOM.innerText += textDOM.dataset.text;
     Object.values(document.querySelectorAll("button")).forEach(function(current) {
         current.addEventListener("click", ()=> {
