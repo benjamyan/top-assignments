@@ -6,8 +6,7 @@ let roundNum = 0, roundTotal = [];
 const playerValue = (value) => {
     return value;
 };
-const computerValue = () => {
-    // returns computer play based on random value
+const computerValue = () => { // returns computer play based on random value
     const num = Math.random();
     let play = "rock";
     if (num >= .33) play = "paper";
@@ -15,21 +14,17 @@ const computerValue = () => {
     return play;
 };
 
-function watchGame(current, result) {
-    // fires if roundNum is below 5
-    if (roundNum < 5) {
-        // adds to integer to keep count of rounds | adds round result to array
+function watchGame(current) { // fires if roundNum is below 5
+    if (roundNum < 5) { // adds to integer to keep count of rounds | adds round result to array
         let round = playRound(current.innerText.toLowerCase());
         roundNum++;
         roundTotal.push(round);
-    } else {
-        // fires functions that write the total game result
+    } else { // fires functions that write the total game result
         writeGameWinner();
         writeGameRounds();
     }
 };
-function playRound(value) {
-    // plays one round | adds result to array
+function playRound(value) { // plays one round | adds result to array
     let result = roundWinner(playerValue(value), computerValue());
     textDOM.innerText = result[0];
     if (result[1] == -1)
@@ -39,7 +34,7 @@ function playRound(value) {
     else null;
     return result;
 };
-function roundWinner(player, computer) {
+function roundWinner(player, computer) { // gets the round winner | i dont like this. too repetitive!
     let p = player, c = computer, loss, win, total, num;
     loss = `${c} beats ${p}!`;
     win = `${p} beats ${c}!`;
@@ -57,8 +52,7 @@ function roundWinner(player, computer) {
     };
     return total;
 }
-function writeGameWinner() {
-    // writes the winner of the game to the screen
+function writeGameWinner() { // writes the winner of the game to the screen
     let winner;
     if (playerDOM > computerDOM) winner = "You win!";
     else winner = "You lose!";
@@ -70,8 +64,7 @@ function writeGameWinner() {
         <p>Reset game</p>
     </button>`
 };
-function writeGameRounds() {
-    // writes the result of each round to winner screen
+function writeGameRounds() { // writes the result of each round to winner screen
     for (i=0; i < roundTotal.length; i++) {
         let result;
         if (roundTotal[i][1] == -1) result = "Loss!";
@@ -84,8 +77,7 @@ function writeGameRounds() {
         </li>`
     };
 };
-function resetGame() {
-    // clears winner window | resets all watchers
+function resetGame() { // clears winner window | resets all watchers
     winnerDOM.classList.remove("active");
     textDOM.innerText = textDOM.dataset.text;
     winnerDOM.innerHTML = "";
@@ -94,8 +86,7 @@ function resetGame() {
     roundNum = 0, roundTotal = [];
 };
 
-(function() {
-    // initializer for the game | event listener | generates text for h3 tag based on data attribute
+(function() { // initializer for the game | event listener | generates text for h3 tag based on data attribute
     textDOM.innerText += textDOM.dataset.text;
     Object.values(document.querySelectorAll("button")).forEach(function(current) {
         current.addEventListener("click", ()=> {
