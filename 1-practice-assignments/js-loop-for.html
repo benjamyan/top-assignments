@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <main class="output">
+        <section class="admitted"></section>
+        <section class="refused"></section>
+    </main>
+    <script>
+        const admitted = document.querySelector('.admitted');
+        const refused = document.querySelector('.refused');
+        const people = ['Chris', 'Anne', 'Colin', 'Terri', 'Phil', 'Lola', 'Sam', 'Kay', 'Bruce'];
+        let i = 0;
+
+        admitted.textContent = "Admit: ";
+        refused.textContent = "Refuse: ";
+        while ( i < people.length ) {
+            let c = people[i];
+            if (c === "Phil" || c === "Lola") 
+                refused.textContent += `${c}, `;
+            else 
+                admitted.textContent += `${c}, `;
+            i++
+        };
+        [admitted, refused].forEach((current)=>{
+            current.innerHTML = current.innerText.slice(0, this.length - 1) + '.';
+        });
+
+    </script>
+</body>
+</html>

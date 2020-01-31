@@ -11,8 +11,7 @@
     <script>
     let output = document.querySelector('.output');
     output.innerHTML = '';
-    let i = 10;
-    while ( i >= 0 ) {
+    for ( let i = 10; i >= 0; i-- ) {
         let add = (content) => {
             const para = document.createElement('p');  
             output.appendChild(para);
@@ -21,7 +20,6 @@
         if ( i == 10 ) add("Countdown 10");
         else if ( i == 0 ) add("Blastoff!");
         else add(i);
-        i--
     };
     </script>
 </body>
