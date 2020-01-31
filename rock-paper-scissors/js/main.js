@@ -38,9 +38,8 @@ function roundWinner(player, computer) { // gets the round winner | i dont like 
     let p = player, c = computer, loss, win, total, num;
     loss = `${c} beats ${p}!`;
     win = `${p} beats ${c}!`;
-    if (p == c) {
-        total = ["Draw!", num=0];
-    } else if (p == "rock") {
+    if (p == c) total = ["Draw!", num=0];
+    else if (p == "rock") {
         if (c == "paper") total = [loss, num=-1];
         if (c == "scissors") total = [win, num=1];
     } else if (p == "paper") {
