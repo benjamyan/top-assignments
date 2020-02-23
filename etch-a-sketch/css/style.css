@@ -1,0 +1,13 @@
+.grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: stretch; }
+  .grid-item {
+    width: calc(100vw / 16);
+    height: calc(100vw / 16);
+    border: 1px solid black;
+    background: white; }
+
+/*# sourceMappingURL=style.css.map */
