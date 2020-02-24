@@ -1,53 +1,52 @@
-const DOM = { clear:"button", grid:".grid" };
+const DOM = { 
+    clear:"button", 
+    grid:".grid" 
+};
 const clearButton = document.querySelector(DOM.clear);
 const gridWrapper = document.querySelector(DOM.grid);
 let userInputValue;
 
 
-buildGrid = (val)=> {
-    // make divs recursively
-    for (let i = 0; i < ((val*val)-1); i++) { // user value  * user value - 1 = length
+buildGrid = (val)=> { // make grid divs recursively
+    for (let i = 0; i < (val*val); i++) { // user value  * user value - 1 = length
         let newGridItem = document.createElement("div"), // create element
             getWidth = gridWrapper.clientWidth, // get width of grid wrapper
-            getSize = getWidth / val + "px"; // get size of divs based on user value and grid wrapper width
+            getSize = getWidth / val + "px"; // get size of divs (width / value)
         newGridItem.style.width = getSize; // set width
         newGridItem.style.height = getSize; // set height
         gridWrapper.appendChild(newGridItem); // add the div to the DOM
     }
     eventListeners(); // push event listenrs after completion
-};
-getGrid = ()=> {
-    // get user desired grid value
-    // use do statement to check for number value
-    // if isnt a number run prompt again
-    do {
-        userInputValue = Number(window.prompt("How many cells do you want?", "Type a Number"));
+}
+getGrid  = ()=> {
+    do { // do statement to check for number
+        userInputValue = Number(window.prompt("How many cells long?", "Type a number")); // get user desired grid value
     } while(isNaN(userInputValue)); // if is a number break loop
     return userInputValue; // return the number value
-};
+}
 destroyGrid = ()=> {
-    // clears out the inner HTML of grid wrapper div
-    gridWrapper.innerHTML = "";
-};
+    gridWrapper.innerHTML = ""; // clears out HTML of grid div
+}
 
 
-function gridItemHover(event) {
-    // add active class to hovered grid div
-    event.srcElement.classList.add("active");
+function eventListeners() { // setup event listeners
+    let gridItemHover, clearGrid;
+    gridItemHover = (event)=> {
+        event.srcElement.classList.add("active"); // add active class
+    };
+    clearGrid = ()=> {
+        getGrid(); // get user value
+        if (userInputValue !== 0) {
+            destroyGrid(); // clear current grid
+            buildGrid(userInputValue); // build grid off value
+        };
+    };
+    Array.from(gridWrapper.children).forEach(function(current) {
+        current.addEventListener("mouseover", gridItemHover); // grid div
+    }); // run through every child of grid
+    clearButton.addEventListener("click", clearGrid); // clear button
 }
-function clearGrid() {
-    getGrid(); // get user value
-    destroyGrid(); // clear current grid
-    buildGrid(userInputValue); // build new grid off user value
-}
-function eventListeners() {
-    // setup event listeners using callback functions
-    Array.from(gridWrapper.children).forEach(function(current){
-        current.addEventListener("mouseover", gridItemHover);
-    });
-    clearButton.addEventListener("click", clearGrid);
-};
-(()=>{
-    buildGrid(16);
+(()=>{ // initialize
+    buildGrid(32); // load base grid on init
     console.log("App initalized");
 })();
