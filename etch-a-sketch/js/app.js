@@ -47,6 +47,6 @@ function eventListeners() { // setup event listeners
     clearButton.addEventListener("click", clearGrid); // clear button
 }
 (()=>{ // initialize
-    buildGrid(32); // load base grid on init
+    buildGrid(16); // load base grid on init
     console.log("App initalized");
 })();
