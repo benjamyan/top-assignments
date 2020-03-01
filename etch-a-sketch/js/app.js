@@ -1,14 +1,20 @@
-const DOM = { 
+/*
+*
+* Declare and get DOM elements
+*/
+const DOM = { // elements to be used later
     clear:"button", 
-    grid:".grid" 
+    grid:".grid"
 };
-const clearButton = document.querySelector(DOM.clear);
-const gridWrapper = document.querySelector(DOM.grid);
-let userInputValue;
-
-
+const clearButton = document.querySelector(DOM.clear); // clear button
+const gridWrapper = document.querySelector(DOM.grid); // grid wrapper
+let userInputValue; // declare as a global variable
+/*
+*
+* Primary functions for app
+*/
 buildGrid = (val)=> { // make grid divs recursively
-    for (let i = 0; i < (val*val); i++) { // user value  * user value - 1 = length
+    for (let i = 0; i < (val*val); i++) { // user value * user value = length
         let newGridItem = document.createElement("div"), // create element
             getWidth = gridWrapper.clientWidth, // get width of grid wrapper
             getSize = getWidth / val + "px"; // get size of divs (width / value)
@@ -27,8 +33,10 @@ getGrid  = ()=> {
 destroyGrid = ()=> {
     gridWrapper.innerHTML = ""; // clears out HTML of grid div
 }
-
-
+/*
+*
+* event listeners and initializer
+*/
 function eventListeners() { // setup event listeners
     let gridItemHover, clearGrid;
     gridItemHover = (event)=> {
@@ -36,17 +44,17 @@ function eventListeners() { // setup event listeners
     };
     clearGrid = ()=> {
         getGrid(); // get user value
-        if (userInputValue !== 0) {
+        if (userInputValue !== 0) { // if user did not cancel
             destroyGrid(); // clear current grid
             buildGrid(userInputValue); // build grid off value
         };
     };
+    clearButton.addEventListener("click", clearGrid); // clear button
     Array.from(gridWrapper.children).forEach(function(current) {
         current.addEventListener("mouseover", gridItemHover); // grid div
     }); // run through every child of grid
-    clearButton.addEventListener("click", clearGrid); // clear button
 }
 (()=>{ // initialize
     buildGrid(16); // load base grid on init
-    console.log("App initalized");
+    console.log("App initalized"); // console confirmation
 })();
