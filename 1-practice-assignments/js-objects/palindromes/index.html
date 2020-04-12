@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const palindromes = function(str) {
+            let base, target, final; // declare variables intended for global use
+            getTrimmed = ()=> {
+                let strLower = str.toLowerCase(), // remove uppercase characters
+                    strTrim = strLower.replace(/[^a-zA-Z0-9]+/g, ''); // remove glyphs and spaces
+                base = strTrim; // turn string into global variable to compare later
+            };
+            getFinal = ()=> {
+                let arrFrom = Array.from(base), // turn string into an array
+                    arrReverse = arrFrom.reverse(), // reverse the array
+                    arrString = arrReverse.toString(); // change it back to a string
+                target = arrString.replace(/,/g,''); // remove commas 
+            };
+            isPalindrome = ()=> target === base ? final = true : final = false; // compare final values
+            getTrimmed(), getFinal(), isPalindrome(); // run functions
+            return final; // return final value
+        };
+        console.log(palindromes('racecar')); // true
+        console.log(palindromes('Racecar!')); //true
+        console.log(palindromes('A car, a man, a maraca.')); //true
+        console.log(palindromes('Animal loots foliated, detail of stool lamina!')); // true
+        console.log(palindromes('ZZZZ car, a man, a maraca.')); // false
+    </script>
+</body>
+</html>
