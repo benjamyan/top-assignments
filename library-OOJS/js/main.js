@@ -12,6 +12,13 @@ const userBookLibrary = [
 ];
 
 
+// prototype function to read back information about a book
+/*AddNewBook.prototype.sayBookInfo = function() {
+    let wasBookRead;
+    this.isRead === true ? 
+        wasBookRead = "was read" : wasBookRead = "was not read";
+    return `${this.title} by ${this.author}, is ${this.pages} pages long, and ${wasBookRead}.`
+}*/
 // prototype to render userBookLibrary to the DOM
 AddNewBook.prototype.renderBooks = function() {
     let wasBookRead;
