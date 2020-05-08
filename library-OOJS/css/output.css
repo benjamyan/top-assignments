@@ -1,0 +1,14 @@
+.input-area h2 {
+  margin-bottom: 0;
+}
+.input-area-form * {
+  display: inline-block;
+}
+.input-area-form input[type=text] {
+  margin-right: 12.5px;
+}
+.input-area-form input[type=submit] {
+  display: block;
+}
+
+/*# sourceMappingURL=output.css.map */

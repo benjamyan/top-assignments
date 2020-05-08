@@ -1,0 +1,23 @@
+.input-area {
+    h2 {
+        margin-bottom: 0;
+    }
+    &-form {
+        * {
+            display: inline-block;
+        }
+        input {
+            &[type="text"] {
+                margin-right: 12.5px;
+            }
+            &[type="submit"] {
+                display: block;
+            }
+        }
+    }
+}
+.render-area {
+    &-item {
+        
+    }
+}

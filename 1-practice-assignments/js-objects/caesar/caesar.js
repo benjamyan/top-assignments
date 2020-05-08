@@ -35,9 +35,8 @@ const caesar = function(str, num) {
     target = new Array(); // creates a new array for each call
     Array.from(str).forEach(function(current){ // convert string to array and loop through it
         let ind = getIndex(current); // selects current element in array
-        // determine either a new character or glyph is pushed to target array
         !isNaN(parseInt(ind)) ? target.push(getNew(ind, num)) : target.push(ind);
-    });
+    }); // determine either a new character or glyph is pushed to target array
     return getFinal() // return final value from function
 }
 

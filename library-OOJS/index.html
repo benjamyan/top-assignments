@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/output.css">
+</head>
+<body>
+    <section class="input-area">
+        <h2>Add a new book to your library!</h2>
+        <form class="input-area-form">
+            <input id="newBookTitle" name="title" type="text" placeholder="Book title" required />
+            <input id="newBookAuthor" name="author" type="text" placeholder="Book author" required />
+            <input id="newBookPageNumber" name="pages" type="number" placeholder="Number of pages" required />
+            <p><b>Did you read the book?</b></p>
+            <input id="newBookIsRead" name="isRead" type="checkbox" value='false' />
+                <label for="isReadYes">Yep!</label>
+            <input type="submit" onclick="inputController(this); return false;" />
+        </form>
+    </section>
+    <main class="render-area">
+        <!--render-here-->
+    </main>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
