@@ -42,7 +42,8 @@ AddNewBook.prototype.cacheBooks = function(indexValue, designation) {
 AddNewBook.prototype.renderBooks = function(newBookIndex) {
     let wasBookRead;
     this.isRead === true ? // changes the isRead value based on true or false
-        wasBookRead = "Book was read" : wasBookRead = "Book was not read";
+        wasBookRead = "This book was read" : 
+        wasBookRead = "This book was not read";
     document.querySelector(DOM.renderArea).innerHTML += ` 
         <div class="render-area-item" data-item="${newBookIndex}"> 
             <a id="removeBook" onclick="inputController(event);">remove</a>
@@ -113,7 +114,13 @@ function inputController(event) {
         );
     };
     if (targetID === "finishBook") {
-        //
+        // holy shit this is jenky
+        // come back and redo this
+        // seriously wtf
+        userBookLibrary[targetValue].cacheBooks(targetValue, "remove") // remove the item from localStorage
+        userBookLibrary[targetValue].isRead = true;
+        // it doesnt even render without refreshing!
+        userBookLibrary[targetValue].cacheBooks(targetValue, "add") // remove the item from localStorage
     };
     if (targetID === "removeBook") {
         targetWrapper.parentElement.removeChild(targetWrapper); // remove the item from the DOM
