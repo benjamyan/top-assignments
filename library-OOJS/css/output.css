@@ -1,5 +1,15 @@
+.hidden {
+  display: none;
+}
+
+.input-area h2, .input-area h5 {
+  display: inline-block;
+}
 .input-area h2 {
   margin-bottom: 0;
+}
+.input-area h5 {
+  cursor: pointer;
 }
 .input-area-form * {
   display: inline-block;
@@ -26,6 +36,9 @@
 }
 .render-area-item sub {
   margin-top: 0;
+}
+.render-area-item a {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=output.css.map */

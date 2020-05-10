@@ -1,6 +1,15 @@
+.hidden {
+    display: none;
+}
 .input-area {
+    h2, h5 {
+        display: inline-block;
+    }
     h2 {
         margin-bottom: 0;
+    }
+    h5 {
+        cursor: pointer;
     }
     &-form {
         * {
@@ -24,7 +33,6 @@
         vertical-align: top;
         border: 1px solid black;
         padding: 25px;
-        div {}
         h2, h4 {
             margin: 0;
         }
@@ -33,6 +41,9 @@
         p  { }
         sub {
             margin-top: 0;
+        }
+        a {
+            cursor: pointer;
         }
         button {}
     }

@@ -7,8 +7,13 @@
     <link rel="stylesheet" href="css/output.css">
 </head>
 <body>
-    <section class="input-area">
+    <section class="welcome-area">
+        <h2>Welcome to your library!</h2>
+        <button id="showInputArea" name="show-input">Add a book</button>
+    </section>
+    <section class="input-area hidden">
         <h2>Add a new book to your library!</h2>
+        <h5 id="closeInputArea">Close</h5>
         <form class="input-area-form">
             <input id="newBookTitle" name="title" type="text" placeholder="Book title" required />
             <input id="newBookAuthor" name="author" type="text" placeholder="Book author" required />
@@ -16,7 +21,7 @@
             <p><b>Did you read the book?</b></p>
             <input id="newBookIsRead" name="isRead" type="checkbox" value='false' />
                 <label for="isReadYes">Yep!</label>
-            <input type="submit" name="add-book" onclick="inputController(this); return false;" />
+            <input id="addNewBook" type="submit" name="add-book" />
         </form>
     </section>
     <main class="render-area">
