@@ -17,7 +17,23 @@
     }
 }
 .render-area {
+    padding-top: 50px;
     &-item {
-        
+        width: 20%;
+        display: inline-block;
+        vertical-align: top;
+        border: 1px solid black;
+        padding: 25px;
+        div {}
+        h2, h4 {
+            margin: 0;
+        }
+        h2 { }
+        h4 { }
+        p  { }
+        sub {
+            margin-top: 0;
+        }
+        button {}
     }
 }
