@@ -18,42 +18,44 @@ const Func = {
 const userInputFields = Array.from(document.querySelectorAll(`${DOM.inputForm} > input:not([type='submit'])`));
 
 
-// prototype to add book to local cache
-AddNewBook.prototype.cacheBooks = function(indexValue, designation) {
-    if (designation === "add") {
-        window.localStorage.setItem( // add object to localStorage
-            `userBookLibrary[${indexValue}]`, // set the key value as a refernce to the objects position in userBookLibrary
-            JSON.stringify(this) // set new AddNewBook object as a string
-        );
-    }
-    /*if (designation === "get") {
-        const getLocalItem = window.localStorage.getItem( // gets current item from localStorage
-            `userBookLibrary[${indexValue}]` // searches for item based on object name which includes index
-        );
-        return getLocalItem
-    }*/
-    if (designation === "remove") {
-        window.localStorage.removeItem( // remove item from local storage
-            `userBookLibrary[${indexValue}]` // reference the item through index # passed
-        );
-    }
-}
 // prototype to render userBookLibrary to the DOM
-AddNewBook.prototype.renderBooks = function(newBookIndex) {
-    let wasBookRead;
-    this.isRead === true ? // changes the isRead value based on true or false
-        wasBookRead = "This book was read" : 
-        wasBookRead = "This book was not read";
+AddNewBook.prototype.renderNewBook = function(newBookIndex) {
+    // better to keep inlined onclick statements rather than bog down the user with a lot of eventListeners
     document.querySelector(DOM.renderArea).innerHTML += ` 
         <div class="render-area-item" data-item="${newBookIndex}"> 
             <a id="removeBook" onclick="inputController(event);">remove</a>
             <h2>${this.title}</h2>
             <h4>${this.author}</h4>
             <sub>${this.pages} pages long</sub>
-            <p>${wasBookRead}</p>
-            <button id="finishBook" onclick="inputController(event);">Finished it!</button>
-        </div>`; // ^^ this fuckery renders the object into the DOM
-        // better to keep inlined onclick statements rather than bog down the user with a lot of eventListeners
+            <p>Book was read.</p>
+        </div>`; // ^^ renders the object into the DOM
+    if (this.isRead !== true)
+        this.renderNewBookOptions(newBookIndex);
+}
+// prototype to render further options to DOM element created by renderNewBook
+AddNewBook.prototype.renderNewBookOptions = function(newBookIndex) {
+    const renderNewBookDOM = document.querySelector(DOM.renderArea + ` div[data-item='${newBookIndex}'`),
+          newBookDOMtext = renderNewBookDOM.querySelector('p'),
+          newBookDOMbtn = document.createElement("button");
+    newBookDOMtext.innerHTML = "This book was not read"; // change the text
+    newBookDOMbtn.setAttribute("id","finishBook"); // set the id of newBookDOMbtn
+    newBookDOMbtn.setAttribute("onclick","inputController(event);"); // set the onclick event of newBookDOMbtn
+    newBookDOMbtn.innerHTML = "Finished it!"; // set the inner text of newBookDOMbtn
+    renderNewBookDOM.appendChild(newBookDOMbtn) // append newBookDOMbtn to the div
+}
+// prototype to add book to local cache
+AddNewBook.prototype.cacheBooks = function(indexValue, designation) {
+    if (designation === "add") {
+        window.localStorage.setItem( // add object to localStorage
+            `userBookLibrary[${indexValue}]`, // set the key value as a refernce to the objects position in userBookLibrary
+            JSON.stringify(this) // set new AddNewBook object as a string
+        )
+    };
+    if (designation === "remove") {
+        window.localStorage.removeItem( // remove item from local storage
+            `userBookLibrary[${indexValue}]` // reference the item through index # passed
+        )
+    };
 }
 // the object constructor for the books that are added from user input
 function AddNewBook(title, author, pages, isRead) {
@@ -92,47 +94,53 @@ function inputController(event) {
     const target = event.target, // get the target of the click event
           targetID = target.id, // get the id associated with click event
           targetWrapper = target.parentElement, // get parent element of click event target
-          targetValue = targetWrapper.dataset.item; // get the data-item number for reference
-    if (targetID === "showInputArea" || 
-        targetID === "closeInputArea") {
+          targetValue = targetWrapper.dataset.item,
+          targetReference = userBookLibrary[targetValue]; // get the data-item number for reference
+    toggleUserAreas = ()=> {
         Func.toggleEl( // toggle welcome area
             document.querySelector(DOM.welcomeArea)
         );
         Func.toggleEl( // toggle input area
             document.querySelector(DOM.inputArea)
         );
-    };
-    if (targetID === "addNewBook") {
+    }
+    addNewBook = ()=> {
         const newBook = getUserBook(); // called getUsedBook using inherited `this` and returns AddNewBook object
         userBookLibrary.push(newBook); // adds returned object from above to the userBookLibrary array
+        const newBookIndex = Func.getIndex(userBookLibrary, newBook); 
         newBook.cacheBooks( // add returned object from above to localStorage
-            Func.getIndex(userBookLibrary, newBook), // pass the index for identification later
+            newBookIndex, // pass the index for identification later
             "add" // the kind of cache function we want to call
         );
-        newBook.renderBooks( // render returned object from above to the DOM
-            Func.getIndex(userBookLibrary, newBook) // pass through the index for identification later
+        newBook.renderNewBook( // render returned object from above to the DOM
+            newBookIndex // pass through the index for identification later
         );
-    };
-    if (targetID === "finishBook") {
-        // holy shit this is jenky
-        // come back and redo this
-        // seriously wtf
-        userBookLibrary[targetValue].cacheBooks(targetValue, "remove") // remove the item from localStorage
-        userBookLibrary[targetValue].isRead = true;
-        // it doesnt even render without refreshing!
-        userBookLibrary[targetValue].cacheBooks(targetValue, "add") // remove the item from localStorage
-    };
-    if (targetID === "removeBook") {
+    }
+    finishBook = ()=> {
+        const targetWrapperText = targetWrapper.querySelector('p'),
+              targetWrapperButton = targetWrapper.querySelector("button");
+        targetReference.cacheBooks(targetValue,"remove"); // remove target from localStorage
+        targetWrapperText.innerHTML = "Book was read"; // change the text of the DOM element
+        targetWrapper.removeChild(targetWrapperButton) // remove the button from the DOM element
+        targetReference.isRead = true; // change the value of isRead to true
+        targetReference.cacheBooks(targetValue, "add"); // add new target to localStorage
+    }
+    removeBook = ()=> {
         targetWrapper.parentElement.removeChild(targetWrapper); // remove the item from the DOM
-        userBookLibrary[targetValue].cacheBooks(targetValue, "remove") // remove the item from localStorage
+        targetReference.cacheBooks(targetValue, "remove") // remove the item from localStorage
         userBookLibrary.splice(targetValue) // remove the item from userBookLibrary array
-    };
+    }
+    if (targetID === "showInputArea" || 
+        targetID === "closeInputArea") toggleUserAreas();
+    if (targetID === "addNewBook") addNewBook();
+    if (targetID === "finishBook") finishBook();
+    if (targetID === "removeBook") removeBook();
 }
 
 
 // renders the items in local storage and adds them to array for reference later
 renderLocalStorage = ()=> {
-    for (let i = 0; i < localStorage.length; i++) { // loops through all items in localStorage
+    for (let i = 0; i < localStorage.length; i++) { // loops through all items in localStorage based on length of localStorage
         const currentBook = new AddNewBook( // passes parsed JSON into AddNewBook consturctor
             ...Object.values(JSON.parse( // parses current item for JSON
                 window.localStorage.getItem( // gets current item from localStorage
@@ -140,7 +148,7 @@ renderLocalStorage = ()=> {
                 )
             ))
         );
-        currentBook.renderBooks(i); // render the current AddNewBook object
+        currentBook.renderNewBook(i); // render the current AddNewBook object
         userBookLibrary.push(currentBook); // add the current AddNewBook object to userBookLibrary array
     }
 }
@@ -151,7 +159,8 @@ setupEventListeners = ()=> {
         document.getElementById(current).addEventListener("click", inputController); // add inputController function to these elements
     });
 }
-(function(){ // self-explanatory
+// self-explanatory IIFE
+(function(){ 
     console.log("Initialized");
     renderLocalStorage();
     setupEventListeners();
